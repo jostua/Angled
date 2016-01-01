@@ -1,0 +1,124 @@
+# Climb Tracker
+
+
+## App server
+* Angular
+* Node
+
+## Database
+* MySQL
+
+### Climbing Tables
+##### Climbs Table
+|column|definition|description|
+|---|---|---|
+|climb_id|int auto_increment unique key|Contains the ID for each climb attempt|
+|session_id|varchar(255)|Unique ID for unique sessions (hash of username, gym, starttime)|
+|start_time|datetime|Time the session started|
+|date_time|datetime|Date and time the climb was logged|
+|user_id|int|ID of User who tracked the climb - keyed to Users table|
+|gym_id|int|ID of the Gym climbed at - keyed to Gyms table|
+|scale_id|int|ID of the scale - keyed to scales table|
+|grade_id|int|ID of the grade - keyed to grades table|
+|color|varchar(50)|Color of the route - free text|
+|wall_id|int|ID of the wall type - keyed to walls table|
+|progress|int|1 - 10 int representing approximate percentage of route completion|
+|modified|datetime|Timestamp when climb was last modified|
+
+
+#### Gyms Table
+|column|definition|description|
+|---|---|---|
+|gym_id|int auto_increment unique key|Contains the ID for each gym climbed at|
+|name|varchar(255)|Name of the gym|
+|type|varchar(50)|Bouldering or Mixed type climbing|
+
+#### Scales Table
+|column|definition|description|
+|---|---|---|
+|scale_id|int auto_increment unique key|Contains the ID for each type of scale|
+|name|varchar(50)|Scale name: Hueco / Yosemite / Font|
+
+#### Grades Table
+|column|definition|description|
+|---|---|---|
+|grade_id|int auto_increment unique key|Contains the ID for each grade|
+|scale_id|int|Keyed to Scales table|
+|difficulty|float|Numerical representation of difficulty of scale. Easiest starts at 1|
+|grade|varchar(50)|Named grade level. 0 / 5.8 / 4a / etc.|
+
+#### Walls Table
+|column|definition|description|
+|---|---|---|
+|wall_id|int auto_increment unique key|Contains the ID for each wall type|
+|name|varchar(50)|Name of wall type: Vertical / Slab / Overhang / 45 Degree|
+
+#### Notes Table
+|column|definition|description|
+|---|---|---|
+|note_id|int auto_increment unique key|Contains the ID for any notes saved|
+|date_time|datetime|Timestamp of when the note was entered|
+|note|blob|Text field with notes|
+
+#### Notes_Climbs Table
+|column|definition|description|
+|---|---|---|
+|id|int auto_increment unique key|Contains the ID for joined note|
+|climb_id|int|Individual climb associated with this note|
+|note_id|int|Individual note associated with this climb|
+
+#### Notes_Session Table
+|column|definition|description|
+|---|---|---|
+|id|int auto_increment unique key|Contains the ID for joined note|
+|session_id|int|Individual session associated with this note|
+|note_id|int|Individual note associated with this climb|
+
+### User Tables
+#### Users Table
+|column|definition|description|
+|---|---|---|
+|user_id|int auto_increment unique key|Contains the ID for user|
+|fname|varchar(255)|User's first name|
+|mname|varchar(255)|User's middle name|
+|lname|varchar(255)|User's last name|
+|age|int|User's age|
+|username|varchar(255)|User's username|
+|email|varchar(255)|User's email address|
+
+## App Workflow
+
+* User logs in
+* Presented with two options:
+	* Review climbs
+	* Log climbs
+
+### Review Climbs
+
+* Presents user with summary climb statistics
+* Allows user to Edit previous sessions
+
+### Log Climbs
+
+* Presents user with Log interface
+* Start Climbing Session
+	* Sets climbing session variables:
+		* Session ID
+		* Session Start time
+		* Gym
+* Add Attempt
+	* Displays Session information:
+		* Session Start time
+		* Gym selected
+	* Collects attempt information:
+		* Scale
+			* Uses Gym information to determine scale options
+		* Grade
+			* Uses Scale information to determine grade options
+		* Color
+		* Wall Type
+		* Progress
+		* Same as previous?
+			* Presents list of Timestamp / Scale / Color / Wall-type of Unique Routes from current session
+		* Note
+* End Climbing Session
