@@ -20,7 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # using a specific IP.
   config.vm.network "private_network", ip: "192.168.33.142"
   # Uncomment when in MediaDoc
-  config.vm.network "public_network", ip: "192.168.21.142"  
+  #config.vm.network "public_network", ip: "192.168.21.142"  
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
