@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Controllers</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular.min.js"></script>
+    <script type="text/javascript" src="clapp.js"></script>
+</head>
+<body>
+    <div ng-app="app">
+        <h1>Controllers</h1>
+        <div ng-controller="MainCtrl as main">
+            <p>Main Message: {{ main.message }}</p>
+            <form ng-submit="main.changeMessage(main.newMessage)">
+                <input type="text" ng-model="main.newMessage">
+                <button type="submit">Change Main Message</button>
+            </form>
+        </div>
+        <div ng-controller="SecCtrl as sec">
+            <p>Secondary Message: <div ng-click="callNotify(message);"></div></p>
+            <input ng-init="message='test'" ng-model="message">
+            <button ng-click="callNotify(message);">Change Secondary Message</button>
+        </div>
+    </div>
+    </body>
+</html>
